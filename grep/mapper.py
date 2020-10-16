@@ -2,14 +2,9 @@
 """mapper.py"""
 
 import sys
-import argparse
+import re
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--start_with", default='k', type = str)
-parser.add_argument("--end_with", default='e', type = str)
-parser.add_argument("--contains", default='oo', type = str)
-args = parser.parse_args()
-
+pattern = sys.argv[-1]
 # input comes from STDIN (standard input)
 for line in sys.stdin:
     # remove leading and trailing whitespace
@@ -23,11 +18,7 @@ for line in sys.stdin:
         # Reduce step, i.e. the input for reducer.py
         #
         # tab-delimited; the trivial word count is 1
-        if word.startswith(args.start_with):
-            print '%s\t%s' % (word, 1)
-        elif word.endswith(args.end_with):
-            print '%s\t%s' % (word, 1)
-        elif args.contains in word:
+        if re.search(pattern, word):
             print '%s\t%s' % (word, 1)
         else:
             print '%s\t%s' % (word, 0)
